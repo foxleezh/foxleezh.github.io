@@ -1,0 +1,700 @@
+---
+layout:     post
+title:      "Git使用 实战版"
+subtitle:   "Git实战使用，没有一套套理论，每一个命令都配有图片，一用就上手"
+date:       2016-10-22 12:00:00
+author:     "foxleezh"
+header-img: "img/post-bg-2016-10-22.jpg"
+catalog: true
+tags:
+    - Git
+---
+
+## Git安装
+* 地址：https://git-scm.com/downloads
+* 下载对应平台的git版本安装即可
+
+
+## Git配置
+
+
+### 配置快捷命令
+* 在用户根目录下（如C:/user/Administrator）新建配置文件命名为.gitconfig
+* 将以下内容写入文件
+
+```
+[user]
+	email = xxx(邮箱如：foxleezh@gmail.com）
+	name = xxx(名字如：foxleezh）
+[alias]
+	st = status
+	ci = commit
+	br = branch
+	co = checkout
+	glog = log --pretty=oneline
+	pus = push
+	pul = !git pull --rebase && git submodule update --init --recursive
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+[merge]
+	tool = vim
+[core]
+	packedGitLimit = 512m
+	packedGitWindowSize = 512m
+[pack]
+	deltaCacheSize = 2047m
+	packSizeLimit = 2047m
+	windowMemory = 2047m
+```
+
+### 配置ssh
+* 在命令行输入
+```bash
+ssh-keygen -t rsa
+```
+* 在用户目录（如C:/user/Administrator）打开.ssh文件夹,查看id_rsa.pub文件，将密钥拷贝到服务器密钥库
+
+### 配置忽略文件
+* 将.gitignore文件放置到项目根目录下
+
+```
+# OSX
+
+*.DS_Store
+
+
+# Gradle files
+build/
+build_out/
+obj/
+.gradle/
+*/build/
+captures/
+
+gradle/
+# IDEA
+*.iml
+.idea/.name
+.idea/encodings.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/scopes/scope_settings.xml
+.idea/vcs.xml
+.idea/workspace.xml
+.idea/libraries
+.idea/runConfigurations.xml
+.idea/compiler.xml
+.idea/copyright/profiles_settings.xml
+.idea/gradle.xml
+.idea/
+
+# Built application files
+*.ap_
+
+
+# Files for the Dalvik VM
+*.dex
+
+
+# Java class files
+*.class
+
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+
+# Log Files
+*.log
+
+# Special
+gradle.properties
+```
+* 凡是在列表中的文件（*表示所有）都将被git忽略，对这些文件的任何改动，git都不会追踪
+* 但是有时我们只想追踪某几个文件，其它都忽略，可以如下配置，！后面的内容为追踪的文件
+```
+/*
+!.gitignore
+!README.md
+```
+## Git使用
+
+* 命令行使用（windows打开git bash , mac 打开终端）
+* Git bash是命令行工具，内部使用linux指令集（linux使用文件另附）
+* 更多linux命令http://www.php100.com/html/webkaifa/Linux/2009/1106/3485.html
+
+
+### 一.准备工作 ###
+* 新建仓库（进入到项目的根目录下）
+```bash
+git init
+```
+* 添加忽略规则，将.gitignore文件放置到根目录下
+* 添加文件，将需要管理的文件加入到根目录下
+
+### 二.代码管理 ###
+* **查看状态**
+```bash
+git st
+```
+
+![](http://upload-images.jianshu.io/upload_images/3387045-59f6d56c28a3899a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+红色表示已修改未保存到缓存区，绿色表示已保存到缓存区<br>
+
+Git有三个状态，一是修改未保存到缓存，二是保存到缓存，三是提交到版本库<br>
+我们可以对比着word文档来学习，状态一就相当于你在word中修改了一些东西，但是没有按ctrl+s键保存起来，状态二就是你修改了东西后按了ctrl+s，暂时存起来了，状态三就是点击了另存为，将它另外存放起来了<br>
+
+* **保存到缓存区**
+```bash
+git add 文件路径（添加单个文件到缓存）
+```
+
+![](http://upload-images.jianshu.io/upload_images/3387045-62df4a4eac63468f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+一开始修改了homepage和loading两个文件，git st后显示红色<br>
+使用git add后，将homepage加入到缓存区<br>
+git st后，发现homepage变为绿色
+```bash
+git add -u（添加所有修改到缓存）
+```
+
+![](http://upload-images.jianshu.io/upload_images/3387045-d54f9fe30b03fe7f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+一开始修改了homepage和loading两个文件，git st后显示红色<br>
+使用git add -u后，将homepage和loading一起加入到缓存区<br>
+git st后，发现homepage和loading变为绿色
+```bash
+git add . （添加所有文件到缓存，包括新建的文件）
+```
+此用法与git add -u类似，区别在于，git add -u只能将修改的文件加入缓存，如果该文件是新建的，要使用git add .， 这个“.”符号表示所有<br>
+
+* **撤销缓存区的文件**
+```bash
+     git reset 文件路径（撤销单个文件）
+```
+
+![](http://upload-images.jianshu.io/upload_images/3387045-4572bc9d5adc98a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+首先git st后发现，有两个已经加入到缓存区的homepage和loading文件<br>
+使用git reset homepage后，将homepage文件撤销<br>
+git st后发现，homepage变为红色<br>
+```bash
+git reset（撤销所有缓存区的文件）
+```
+
+![](http://upload-images.jianshu.io/upload_images/3387045-949e49dd02c7ae94.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+首先git st后发现，有两个已经加入到缓存区的homepage和loading文件<br>
+使用git reset后，将所有文件撤销<br>
+git st后发现，homepage和loading都变为红色<br>
+
+* **撤销修改**
+```bash
+git co 文件路径（撤销单个文件的修改）
+```
+
+![](http://upload-images.jianshu.io/upload_images/3387045-46651d34cf8ec9f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+首先使用git st，发现有homepage和loading两个文件被修改<br>
+使用git co homepage，撤销homepage的修改<br>
+git st后发现homepage文件不见了，查看原代码，代码中的修改也没有了<br>
+```bash
+git reset --hard （撤销所有文件的修改）
+```
+
+![](http://upload-images.jianshu.io/upload_images/3387045-872f5f8d5060bd31.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+首先使用git st，发现有homepage和loading两个文件被修改<br>
+使用git reset --hard，撤销所有的修改<br>
+git st后发现homepage和loading文件不见了,显示nothing to commit,working directory clean， 这表示当前没有任何的修改<br>
+
+* **查看修改的内容**
+```bash
+git diff 文件路径（查看单个文件修改）
+```
+
+![](http://upload-images.jianshu.io/upload_images/3387045-cadf7ff2edf02050.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+首先使用git st,有两个文件Homepage,loading被修改<br>
+使用git diff homepage,可以看到哪些被修改了，按箭头上下可以翻动，”-”号表示删除（红色显示），”+”号表示添加（红色显示）<br>
+查看完成后输入q，即可退出查看<br>
+要查看所有修改直接用git diff<br>
+```bash
+git diff --cached （查看处于缓存区的修改）
+```
+
+![](http://upload-images.jianshu.io/upload_images/3387045-16fe207be9e2277c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+首先使用git st,有两个文件Homepage,loading被加入到缓存区<br>
+使用git diff homepage,可以看到哪些被修改了，按箭头上下可以翻动，”-”号表示删除（红色显示），”+”号表示添加（红色显示）<br>
+查看完成后输入q，即可退出查看<br>
+要查看所有修改直接用git diff --cached<br>
+
+
+* **将缓存区的内容提交到版本库**
+```bash
+git ci -m “我修改了什么”
+```
+
+![](http://upload-images.jianshu.io/upload_images/3387045-4c233c1b47e23699.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+首先git st,发现有两个文件homepage和loading加入到缓存区<br>
+使用git ci -m “注释”，将缓存区的内容提交到版本库，这里注释是随便写的，用于提示该commit修改了一些什么内容<br>
+git st后发现，缓存区中的内容不见了，这是因为已经提交到版本库中了<br>
+
+* **查看版本库中的内容**
+```bash
+git log
+```
+
+![](http://upload-images.jianshu.io/upload_images/3387045-57f1d9bb6a85efbe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+git log后发现有两个提交，“我修改了什么”是刚刚提交的commit，下面来分析下：<br>
+commit ac76744b1843665d0c6cf1add7cf758bc824c89a  (这行是一个md5值，用来唯一标识commit的)<br>
+Author: foxleezh <foxleezh@gmail.com>  (这行是说明该commit是谁提交的)<br>
+Date:   Fri Jul 10 10:02:16 2015 +0800   (提交的时间)<br>
+我修改了什么  (之前我们写的注释)<br>
+
+* **查看某个提交中修改的内容**
+```bash
+git show commit号
+```
+
+![](http://upload-images.jianshu.io/upload_images/3387045-86db6a64d051cbdd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+git show ac76744b,  这个ac76744b就是之前git log时对应的md5值，可以只取前6位<br>
+查看完成用q退出<br>
+
+
+**我们回顾一下已讲的内容，一般来说使用流程都是**
+
+* 修改了一些内容，用git st看看状态
+* git diff看看修改了哪些内容
+* 确认无误后，将需要提交的内容git add加入到缓存区
+* git ci -m 加入到版本库中，这里说一下，平常我们都用git ci -m新建一个commit，其实通常我们不用新建commit，而是用git ci --amend追加的方式
+
+
+![](http://upload-images.jianshu.io/upload_images/3387045-6e62584e09a00e7e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+这里我们修改了loading中的内容，然后git add -u 加入到缓存区，因为我们只是修改了很少的内容，不需要重新提交commit，所以使用git ci --amend追加到之前的commit，这时会让我们修改注释内容<br>
+
+![](http://upload-images.jianshu.io/upload_images/3387045-4e777d0e4f77f05a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+这是一个vim的编辑器，之前linux中有讲，按i进入编辑模式，箭头移动光标就可以修改注释，修改好后，按ESC进入一般模式，按：进入命令模式，输入wq，保存退出<br>
+
+![](http://upload-images.jianshu.io/upload_images/3387045-f3651b0d61ebd201.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+git log后发现没有新建commit，只是追加到了之前的commit
+
+我们在使用的过程中可能要回到某一个提交，这时可以使用git reset命令，这个命令可以带参数，--mixed(回到修改未保存状态),--soft（回到缓存区状态）,--hard（删除所有修改），默认是--mixed<br>
+先讲讲--hard，这个好理解，就是把这个commit之后的所有修改都删除<br>
+
+![](http://upload-images.jianshu.io/upload_images/3387045-4088e8410e2acd6f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+这里有四个commit
+
+![](http://upload-images.jianshu.io/upload_images/3387045-109dd0116dedd8b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+我们先使用git reset --hard ，将“我修改了名字”之后的所有修改的删除<br>
+git st后发现，没有任何修改<br>
+git log后，已经回到”我修改了名字”的commit<br>
+
+
+![](http://upload-images.jianshu.io/upload_images/3387045-4351c472dd742209.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+下面我们试试git reset --mixed或者git reset
+
+
+![](http://upload-images.jianshu.io/upload_images/3387045-5333cb010591130a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+git log我们会发现--mixed和--hard都回到了“我修改了名字”的版本，区别在于git st后--mixed将“测试reset1”和“测试reset2”中修改的内容保留下来了，这样好处在于，我们有时回到某一个commit不是要删除所有的修改，而是只想改变某一些东西，这时我们把需要改的地方改掉后，再重新提交一个commit，这样会方便很多<br>
+最后我们试试git reset --soft
+
+![](http://upload-images.jianshu.io/upload_images/3387045-12250b8f8abdc85e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+这个跟git reset --mixed差不多，只是它是把之后的修改放入了缓存区
+
+
+### 三．分支操作
+之前我们的操作都是同一个分支上的操作，现在我们引入分支的概念
+
+* **查看分支**
+```bash
+git br
+```
+
+![](http://upload-images.jianshu.io/upload_images/3387045-c743b023bc3dcabe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+git默认都会有一个分支叫master，这个分支叫主分支，一般来说我们提交代码的时候是用这个分支来提交，但是实质上它跟普通的分支没有什么区别<br>
+为什么我们要引入分支，svn也有分支的概念，但是基本是在服务器端，我们本地基本是在一个分支上修改内容的，然后commit，有时我们改一个东西A可能需要很长时间，当还没有改完却突然要修改另外一个东西B，而且A因为没有改完不能合并到版本库，这时svn就有点乏力了，我们可能要把之前没改完的东西A删除掉，然后再来改接下来的B。<br>
+git因为是分布式的，不管是服务器端还是本地，都可以存在很多分支，这样就方便我们利用分支很好地管理代码，当我们修改任务A的时候，我们可以在分支A上修改，分支A在master的基础上新建而来，当我们还没有处理完A就要处理B时，我们可以新建另一个分支B，也是在master的基础上新建而来，这样当我们处理完B，提交后，可以回到A，继续我们之前的开发，当我们开发完A，要提交的时候，我们把B的内容整合进来，这个涉及到分支合并，我们之后再讲
+
+* **新建分支**
+```bash
+git co -b TEST  //新建名为TEST的分支，当前的分支会以绿色显示
+```
+
+![](http://upload-images.jianshu.io/upload_images/3387045-cf217d5e7de4e195.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+当我们新建分支时，是从当前分支的基础上新建的，新建的分支保留了当前分支所有的修改，所以新建分支相当于对当前分支的一份拷贝，而不是一个空的分支
+
+* **切换分支**
+```bash
+git co master  //切换到master分支
+```
+
+![](http://upload-images.jianshu.io/upload_images/3387045-55de80cb92dec69b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+* **删除分支**
+```bash
+git br -D TEST //D大写，表示强制删除
+```
+
+![](http://upload-images.jianshu.io/upload_images/3387045-b5f5018f64e72824.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+* **分支合并**
+讲合并，我们就回到之前那个例子，我们处理A任务和B任务都新建一个分支分别为TESTA和TESTB，这两个分支都是在master的基础上新建过来的
+
+
+![](http://upload-images.jianshu.io/upload_images/3387045-aefce3a426a954d9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+这里有三个分支，分别是master,TESTA,TESTB
+
+
+![](http://upload-images.jianshu.io/upload_images/3387045-5aebeb89ba3fc1f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+主分支master有两个提交
+
+
+![](http://upload-images.jianshu.io/upload_images/3387045-b132861f726ae59f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+git co TESTA切换到TESTA,上面有三个提交，在master基础上多了一个“测试A”的提交
+
+
+![](http://upload-images.jianshu.io/upload_images/3387045-d64430d355ed6def.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+git co TESTB切换到TESTB,上面有三个提交，在master基础上多了一个“修改B”的提交
+
+现在我们需要把A和B合并到一起
+
+
+![](http://upload-images.jianshu.io/upload_images/3387045-3c3191ec2e56ea1a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+首先切换到TESTA分支，然后使用git rebase TESTB命令，将TESTB合并到TESTA前面<br>
+一般来说，如果两个分支没有冲突的话，合并就完成了，像上图有冲突就需要解决冲突<br>
+
+![](http://upload-images.jianshu.io/upload_images/3387045-1f20e76f6ce12805.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+git st后发现，TESTA和TESTB都修改了loading文件
+
+![](http://upload-images.jianshu.io/upload_images/3387045-6250f319f52a53bf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+git diff  loading后，查看具体的冲突内容，git用特殊的符号标记冲突，<<<<<< HEAD到=======之前是你要合并的分支对当前文件的修改，因为现在我是要把TESTB合并到TESTA，所以HEAD就代表TESTB的修改，也就是“我是用来追加的B”是TESTB的修改，然后======与>>>>>>之前的内容是TESTA的修改，也就是“我是用来追加的A”这句话<br>
+
+现在我们要做的就是确认好是保留A的内容，还是保留B的内容，还是A和B的内容都保留，我们修改可以用linux的vim工具来修改，也可以直接在Android studio或者xcode中修改，修改时先将<<<<<，======这些特殊标记符号去掉，然后再进行修改<br>
+
+![](http://upload-images.jianshu.io/upload_images/3387045-4daf43043dacbe62.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+修改完成后，git add -u 将修改的内容加入到缓存区<br>
+然后git rebase --continue,继续rebase操作<br>
+如果要放弃合并，使用git rebase --abort<br>
+合并完成后git log，我们可以看到，TESTB的修改“修改B”已经合并进TESTA了，这时TESTA分支中就包含了A和B的修改<br>
+
+
+### 四．与远程服务器交互
+* **生成rsa密钥**
+```bash
+ssh-keygen -t rsa
+```
+查看id_rsa.pub文件，将密钥拷贝到服务器密钥库
+
+* **从远程复制仓库**
+```bash
+git clone 服务器仓库地址
+```
+ 一般来说是新建一个空目录，然后去克隆服务器的git仓库
+
+* **在服务器添加仓库**
+
+1.新建本地仓库
+```bash
+git init
+```
+2.添加远程仓库地址
+```bash
+git remote add origin ssh://****@****:29418/foxleezh/test.git
+```
+3.提交远程仓库
+```bash
+git push origin master
+```
+4.切换到远程分支
+```bash
+git br -r 查看远程分支
+git co 切换到某一个远程分支
+```
+5.删除远程分支
+```bash
+git push origin :branch
+```
+6.拉取服务器分支并切换到临时分支
+```bash
+git fetch origin branchname && git co FETCH_HEAD
+```
+如：
+git fetch origin GIT && git co FETCH_HEAD
+
+7.拉取服务器分支并合并到master
+```bash
+ git pull
+```
+pull命令相当于fetch命令加上merge命令，将服务器master分支的内容拉下来并合并到本地master
+```bash
+git pull --rebase
+```
+以rebase形式拉取，相当于fetch命令加上rebase命令
+
+如果是pull其他分支，加上分支名
+```bash
+git pull origin branchA
+```
+8.向服务器提交分支
+```bash
+git push
+```
+如果是push其他分支，加上分支名
+```bash
+git pull origin branchA
+```
+9.常见错误
+
+* unable to rewind rpc post data - try increasing http.postBuffer
+```bash
+git config http.postBuffer 524288000
+```
+* 高版本不支持ssl
+```bash
+Host www.xxx.com(改成服务器地址)
+HostkeyAlgorithms ssh-dss
+```
+
+### 五．子模组
+* **新建子模组**
+
+1.新建父项目、子项目并上传服务器
+2.克隆父项目、子项目到不同目录
+```bash
+git clone ssh://<username>@<hostname>:29418/project-1.git
+git clone ssh://<username>@<hostname>:29418/lib1.git
+git clone ssh://<username>@<hostname>:29418/lib2.git
+```
+3.将子项目变为父项目的子模组
+```bash
+git submodule add ssh://<username>@<hostname>:29418/lib1.git libs/lib1（这里目录可以自由更改）
+git submodule add ssh://<username>@<hostname>:29418/lib2.git libs/lib2
+```
+4.将父项目修改的修改提交服务器
+```bash
+git add -u
+git push
+```
+至此，子模组新建完成
+
+* **修改子模组**
+
+1.进入子模组目录提交并上传
+```bash
+git add -u
+git push
+```
+2.进入父项目提交并上传
+```bash
+git add -u
+git push
+```
+* **克隆子模组**
+
+1.克隆父项目
+```bash
+git clone --recursive ssh://<username>@<hostname>:29418/project-1.git
+```
+2.切换子项目分支
+到子目录下（此时分支处于游离状态）
+```bash
+git co -b newBranch
+```
+* **更新子模组**
+
+1.在父目录下更新
+```bash
+git pull
+git submodule update
+```
+2.切换子项目分支
+此时分支处于游离状态
+```bash
+git co -b newBranch
+```
+* **删除子模块**（分4步走）
+
+1.根据路径删除子模块的记录
+```bash
+$ git rm --cached [path]
+```
+2.编辑“.gitmodules”文件，将子模块的相关配置节点删除掉<br>
+清理子模块配置<br>
+3.编辑“ .git/config”文件，将子模块的相关配置节点删除掉<br>
+清理子模块配置<br>
+4.手动删除子模块残留的目录<br>
+清理脏文件<br>
+
+### 六、其他
+* **Git找回commit**
+```bash
+git reflog
+```
+
+* **开发流程**（以master为例）
+
+    * 在master的基础上新建一个分支进行修改
+git co -b newbranch<br>
+    * 在新的newbranch上改好代码后commit
+git add -u<br>
+git ci -m "newbranch的修改"<br>
+    * 切换到master上拉取最新代码，防止别人上传了代码自己却没有更新
+git co master<br>
+git pull origin master<br>
+    * 如果服务器有代码更新，切换回newbranch合并服务器新增代码(如果没有更新，直接执行第5步)
+git co newbranch<br>
+git rebase master<br>
+    * 切换到master，合并newbranch代码
+git co master<br>
+git rebase newbranch<br>
+    * 提交代码到服务器
+git push origin master<br>
+
+* **有关git rebase的常识**
+    * 对于rebase的顺序<br>
+比如 上例中newbranch和master两个分支的合并<br>
+一开始两分支commit都是1，2，3<br>
+后来newbranch提交了一个4，commit就是1,2,3,4的顺序<br>
+而master拉取服务器更新了5，commit就是1，2，3，5的顺序<br>
+这时我们切换到newbranch，去rebase master，即git rebase master<br>
+rebase后的顺序是1,2,3,5,4<br>
+如果我们当初是切换到master，去rebase newbranch<br>
+rebase后的顺序是1,2,3,4,5<br>
+这里的法则就是，去rebase哪个分支，就把哪个分支塞在下面<br>
+    * 对于rebase冲突的解决<br>
+当我们rebase后，看见有冲突，git st后可以看到冲突的文件<br>
+我们通过Android studio找到冲突的文件，去搜索=====或者<<<<<<这些特殊标记就会找到冲突的代码<br>
+修改冲突的代码为你想要的代码后，记得将=====，<<<<<这些特殊符号去掉<br>
+修改好后git add -u,将修改的代码提交到缓冲区<br>
+git rebase --continue继续rebase，这样就将冲突解决了<br>
+如果rebase过程中想取消，git rebase --abort<br>
+    * 能过rebase删除某几个commit<br>
+比如newbranch上的commit为1，2，3，4<br>
+这时我想将中间的2和3去掉，变为1，4<br>
+我们首先要将2和3的commit号记下，比如是commit2,commit3<br>
+然后git rebase --onto commit2^空格commit3（commit2后面的^是前一个的意思，这个符号在键盘的数字6上面）<br>
+其实可以是git rebase --onto commit1空格commit3(因为commit2^就是commit1)<br> 
+
+
+* **一些Linux常用命令**
+tab 补全命令<br> 
+ctrl+c 停止执行<br> 
+    * 文件管理
+        * pwd 打印当前目录
+        * cd 进入某个目录
+cd /home/develop  进入绝对路径<br> 
+cd eclipse 进入相对路径<br> 
+cd ../ 返回上一级目录<br> 
+        * touch [file name]打开或创建一个文件
+        * mkdir -p [dir name] 创建一个目录 -p为强制创建
+        * rm -r [file name/dir name] 删除一个文件或目录
+        * ls -al 列出所有文件（包括隐藏文件）的详细信息
+-d 只列出该目录的信息<br> 
+        * cp -rd [目标文件] [目的文件] 复制文件
+-r是允许目录cp <br> 
+-d是在拷贝软连接时只拷贝软连接，如果不加则会把原文件一起拷过去<br> 
+cp -rd test.txt dir/test.txt<br> 
+        * mv -i [目标文件] [目的文件] 移动文件
+-i是询问是否覆盖同名文件，如果[目标文件][目的文件]相同，那就是重命名
+
+        * find [dn]　[参数]
+如：find $HOME -name 'foxlee' -o -type f -o -size +20M<br> 
+-atime +n ：访问或执行时间大于n天的文件<br> 
+-ctime +n ：写入、更改inode属性（例如更改所有者、权限或者连接）时间大于n天的文件<br> 
+-mtime +n ：写入时间大于n天的文件<br> 
+文件的 Access time，atime 是在读取文件或者执行文件时更改的。<br> 
+文件的 Modified time，mtime 是在写入文件时随文件内容的更改而更改的。<br> 
+文件的 Create time，ctime 是在写入文件、更改所有者、权限或链接设置时随 Inode 的内容更改而更改的。<br> 
+因此，更改文件的内容即会更改 mtime 和 ctime，<br> 
+但是文件的 ctime 可能会在 mtime<br>  未发生任何变化时更改，例如，更改了文件的权限，但是文件内容没有变化。<br> 
+这里讲一下ls中显示的时间<br> 
+ls -lc filename         列出文件的 ctime<br> 
+ls -lu filename         列出文件的 atime<br> 
+ls -l filename          列出文件的 mtime<br> 
+继续讲find的参数<br> 
+-name 'filename' 直接查找该文件名的文件(注意加引号)<br> 
+-type type ：通过文件类型查找 type 包含了 f, b, c, d, l, s 等等<br> 
+d 表示该文件为目录；<br> 
+f 表示该文件为普通文件；<br> 
+b 表示该文件为块设备文件，比如磁盘分区<br> 
+l 表示该文件为连接文件（linux file），上边提到的软连接即为该类型;<br>
+c 表示该文件为串行端口设备，例如键盘、鼠标。<br> 
+s 表示该文件为套接字文件（socket），用于进程间通信。<br> 
+    * 文件查看与编辑
+        * vim [fn] 编辑文件  有三种模式（一般模式，编辑模式，命令模式），可以自由切换<br> 
+一般模式下移动光标（esc回到一般模式）<br> 
+箭头上下左右<br> 
+
+        * 一般模式下查找与替换
+/word  向光标之后寻找一个字符串名为word的字符串，当找到第一个word后，按”n”继续搜后一个,"N"前一个<br> 
+
+        * 一般模式下删除、复制粘贴
+dd  删除光标所在的那一行<br> 
+yy  复制光标所在的那行<br> 
+p,P p复制的数据从光标下一行粘贴，P则从光标上一行粘贴<br> 
+u   还原过去的操作<br> 
+
+        * 进入编辑模式(按i进入)
+i   在当前字符前插入字符<br> 
+
+        * 命令模式（按：进入）
+:q! 不管编辑或未编辑都不保存退出<br> 
+:wq 保存，退出<br> 
+:e! 将文档还原成最原始状态<br> 
+:set nu  在每行的行首显示行号<br> 
+:set nonu 取消行号<br>
