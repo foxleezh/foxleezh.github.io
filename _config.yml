@@ -6,7 +6,7 @@ email: foxleezh@gmail.com
 description: "代码的世界很大。"
 keyword: "张理, foxleezh, Android"
 url: "https://github.com/foxleezh/"              # your host, for absolute URL
-baseurl: "https://github.com/foxleezh/"                             # for example, '/blog' if your blog hosted on 'host/blog'
+baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
 
 
