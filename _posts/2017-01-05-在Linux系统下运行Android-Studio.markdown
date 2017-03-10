@@ -7,7 +7,7 @@ author:     "foxleezh"
 header-img: "img/post-bg-2017-01-05.jpg"
 catalog: true
 tags:
-    - Android-Studio Linux
+    - Android Studio
 ---
 
 最近因为公司需要做视频方面的内容，找了几个第三方框架，而这些框架大部分代码都是C层的代码，而且有特别复杂的编译脚本，这些脚本都无法在windows上运行（坑），所以不得不转战到mac或linux平台，资金有限，所以放弃mac,直接装linux系统

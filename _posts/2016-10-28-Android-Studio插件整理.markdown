@@ -7,7 +7,7 @@ author:     "foxleezh"
 header-img: "img/post-bg-2016-10-28.jpg"
 catalog: true
 tags:
-    - Android-Studio
+    - Android Studio
 ---
 
 # Android Studio插件整理
