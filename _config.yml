@@ -1,12 +1,12 @@
 # Site settings
-title: foxleezh gitbub
+title: foxleezh Blog
 SEOTitle: 张理的博客 | foxleezh Blog
 header-img: img/home-bg.jpg
 email: foxleezh@gmail.com
 description: "代码的世界很大。"
 keyword: "张理, foxleezh, Android"
 url: "https://github.com/foxleezh/"              # your host, for absolute URL
-baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
+baseurl: "https://github.com/foxleezh/"                             # for example, '/blog' if your blog hosted on 'host/blog'
 
 
 
