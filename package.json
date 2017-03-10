@@ -1,9 +1,9 @@
 {
     "name": "foxleezh-blog",
-    "title": "foxleezh Blog",
+    "title": "foxleezh github",
     "author": "foxleezh <foxleezh@gmail.com>",
     "version": "1.7.0",
-    "homepage": "http://foxleezh.github.io",
+    "homepage": "https://github.com/foxleezh/",
     "repository": {
         "type": "git",
         "url": "https://github.com/foxleezh/foxleezh.github.io"
