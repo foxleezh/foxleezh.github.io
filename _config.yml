@@ -1,6 +1,6 @@
 # Site settings
-title: Hux Blog
-SEOTitle: 张理的博客 | Hux Blog
+title: foxleezh Blog
+SEOTitle: 张理的博客 | foxleezh Blog
 header-img: img/home-bg.jpg
 email: foxleezh@gmail.com
 description: "代码的世界很大。"
@@ -69,7 +69,7 @@ duoshuo_share: true                     # set to false if you want to use Commen
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
 sidebar-about-description: "生活不过如此"
-sidebar-avatar: /img/avatar-hux.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-avatar: /img/avatar-foxleezh.jpg      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
 
