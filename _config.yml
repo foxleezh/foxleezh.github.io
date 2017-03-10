@@ -1,39 +1,37 @@
-# Site settings
-title: Monochrome | A minimal, responsive Jekyll blog theme
-description: "A minimal, responsive, ready to use blog template, built with Jekyll."
-url: "http://www.dyutibarma.github.io/monochrome"
-author:
-  name: "The Review Index"
-  email: "dyutibarma@gmail.com"
-  url: "https://thereviewindex.com"
-
-# Build settings
-baseurl: /monochrome # Change this to your relative path (ex: /blog/), or leave just a /
+permalink: /blog/:year/:month/:title.html 
+include: ['.htaccess']
+exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md", "CNAME", "Gemfile", "Gemfile.lock"]
 markdown: kramdown
-source: .
-destination: ./_site
-permalink: /:title
+highlights: pygments
+url: 
+cdn_url: 7u2t01.com1.z0.glb.clouddn.com
+lsi: false
+safe: true
+timezone: Asia/Shanghai
+auto: false 
+
 paginate: 8
-paginate_path: /page:num/
+paginate_path: "page:num"
 
-# Default values
-defaults:
-  -
-    scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: "post"
+kramdown:
+  auto_ids: true,
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  use_coderay: false
 
-# Plugins
-gems:
-  - jekyll-paginate
-  - jekyll-sitemap
+JB :
+  IMAGE_PATH : http://coolshell.info/images
 
-# Custom variables
-version: "1.0.0"
+# presonal config
+domain: http://coolshell.info
+title: Lippi-浮生志
+description: Draw my life with code
+author: Lippi.OuYang
+email: ouyanglip@gmail.com
+github: LippiOuYang
 
-# Options
-custom_header: false
-custom_nav_footer: false
-reverse: false
+config:
+  js_dir:
+  img_dir:
+  css_dir:

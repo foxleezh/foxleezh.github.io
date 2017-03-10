@@ -1,33 +1,30 @@
 ---
-layout: page
-title: About Monochrome
-description: This page describes monochrome.
+layout: default
+title: "关于：About"
 ---
-## About
-Monochrome is a minimal, responsive theme created for Jekyll. The goal of Monochrome is to provide a ready to use, plug and play theme for those who want to set up a blog, and focus solely on the content.
 
-## Features
+## 个人简介：
 
-- Completely responsive and mobile first
-- Clean SEO friendly URLs, auto-generated from post title (no messy dates in the url)
-- SEO title/description integration
-- Sitemap ready
-- Easy customization for header, footer, navigation links, colors, favicon etc
-- Default Monochrome Color Palette - black, white, greys
+* 欧阳利平
+* Web后台开发、Android应用开发爱好者
+* 来自江西 现居广州
 
-### Setup
+## 联系方式
 
-Monochrome may be installed by simply downloading the .zip folder from the [repository on Github](https://github.com/thereviewindex/monochrome/archive/master.zip).
+<p class="contact">
+ <a href="http://weibo.com/ouyanglip" title="微博联系我"><img src="http://www.sinaimg.cn/blog/developer/wiki/LOGO_32x32.png" width="24" height="24" style="display:inline-block;vertical-align:middle"></a><br/>
+        <a href="http://www.zhihu.com/people/lippi-ouyang" title="知乎联系我"><img src="http://www.zhihu.com/favicon.ico" width="24" height="24" style="display:inline-block;vertical-align:middle"></a><br/>
+ <a href="https://github.com/LippiOuYang" title="Github联系我"><img src="http://www.github.com/favicon.ico" width="24" height="24" style="display:inline-block;vertical-align:middle"></a><br/>
+邮箱: ouyanglip@gmail.com 
+</p>
 
-After extracting the content from the folder into the selected directory, you can type ``jekyll serve`` from the terminal, than open your browser to ``0.0.0.0:4000/monochrome/`` and you will find it there.
+### 关于本站：
 
-Additionally it is possible to fork the repository and use Github Pages as hosting. By following this way it will be enough to change the ``baseurl`` value into the ``_config.yml`` file, with the directory name of your project (for example /blog) or simply with a "/" (slash) if you want install Monochrome in the root. 
+* 搭建于[Github](https://github.com/LippiOuYang/LippiOuYang.github.io),欢迎Fork
+* 模板及样式来源[Useful Paradigm](http://usefulparadigm.com/)
+* 折腾开始于2014年6月1日，基本在2014年6月15日完工。
 
-
-
-For further details on Monochrome, please visit the [repository on Github](https://github.com/thereviewindex/monochrome/).
-
-![Monochrome](img/monochrome01.png "monochrome")
-
-
-
+## 其他流言
+* 未**女昏**人士；
+* 阿森纳球迷；
+* 实况足球忠实粉丝；
