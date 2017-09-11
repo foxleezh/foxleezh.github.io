@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "在Linux系统下运行Android Studio"
-subtitle:   "实用的AS插件"
+subtitle:   "Android Studio在Linux下各种坑"
 date:       2017-01-05 12:00:00
 author:     "foxleezh"
 header-img: "img/post-bg-2017-01-05.jpg"
