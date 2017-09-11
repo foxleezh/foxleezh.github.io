@@ -12,7 +12,7 @@ tags:
 
 最近因为公司需要做视频方面的内容，找了几个第三方框架，而这些框架大部分代码都是C层的代码，而且有特别复杂的编译脚本，这些脚本都无法在windows上运行（坑），所以不得不转战到mac或linux平台，资金有限，所以放弃mac,直接装linux系统
 
-#一.装linux系统
+# 一.装linux系统
 * 准备工作
 1.到官网下载linux的镜像文件 http://cn.ubuntu.com/download/
 2.下载ultraiso 地址百度下，一搜一大把
@@ -27,7 +27,7 @@ tags:
 1.windows设置U盘启动（根据不同BIOS百度去，一盘开机按F2）
 2.启动后直接就进入安装，根据提示一直点下一步下一步就安装了
 
-#二.安装Android studio
+# 二.安装Android studio
 
 一些坑
 装好linux系统后无法上网，让我很是头疼，后来解决方案是用手机共享wifi，连接手机后一般都有这个选项，没有的自行百度
@@ -73,8 +73,8 @@ sudo pip install shadowsocks --upgrade
 参考https://aitanlu.com/ubuntu-shadowsocks-ke-hu-duan-pei-zhi.html
 
 有了翻墙工具，很多事情就好办了
-* #####下面开始讲android studio的安装
-1.到google官网下载linux版本 https://developer.android.com/studio/index.html#downloads
+* ##### 下面开始讲android studio的安装
+1.到google官网下载linux版本 https://developer.android.com/studio/index.html# downloads
 2.解压下载好的文件到某一目录下 比如/home/xxx/android studio
 3.运行/home/xxx/android studio/bin/studio.sh
 这里可能有些机子上没配置jdk
@@ -102,15 +102,15 @@ source ~/.bashrc
 参考http://www.cnblogs.com/samcn/archive/2011/03/16/1986248.html
 配置好运行后会自动去下载sdk
 
-#三.一些坑
-######(1).如果是64位的机子运行项目的时候会报aapt error=2,找不到文件和目录
+# 三.一些坑
+###### (1).如果是64位的机子运行项目的时候会报aapt error=2,找不到文件和目录
 
 这是因为aapt是32位的，64位对它的兼容不好，解决方案
 ```
 sudo apt-get -qqy install libncurses5:i386 libstdc++6:i386 zlib1g:i386
 ```
 参考http://stackoverflow.com/questions/19523502/how-to-make-androids-aapt-and-adb-work-on-64-bit-ubuntu-without-ia32-libs-work
-######(2).升级gradle 版本
+###### (2).升级gradle 版本
 参考http://www.jianshu.com/p/707b871f9350
 
 (1.download
@@ -139,7 +139,7 @@ PATH=$PATH:$GRADLE_HOME/bin
 source /etc/profile
 ```
 
-######(3).jdk找不到tool.jar文件
+###### (3).jdk找不到tool.jar文件
 由于ubuntu默认安装JAVA的openjdk版本没有装tools.jar,因此在某些情况下必须安装openjdk的完全版，如下命令即可完成：
 sudo apt-get install openjdk-8-jdk
 
