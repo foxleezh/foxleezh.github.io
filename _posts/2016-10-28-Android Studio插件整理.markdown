@@ -2,7 +2,7 @@
 layout:     post
 title:      "Android Studio插件整理"
 subtitle:   "实用的AS插件"
-date:       2016-10-22 12:00:00
+date:       2016-10-28 12:00:00
 author:     "foxleezh"
 header-img: "img/post-bg-2016-10-28.jpg"
 catalog: true
